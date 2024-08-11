@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet, Image, Alert, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 
-const SwipeableEventCard = ({ event, onDelete }) => {
+const SwipeableEventCard = ({ event, onDelete, onEdit, closeSwipeable }) => {
+  const swipeableRef = useRef(null);
 
   const confirmDelete = () => {
     Alert.alert(
@@ -18,15 +19,27 @@ const SwipeableEventCard = ({ event, onDelete }) => {
 
   const renderRightActions = () => {
     return (
-      <TouchableOpacity style={styles.deleteBox} onPress={confirmDelete}>
-        <FontAwesome name="trash" size={24} color="white" />
-      </TouchableOpacity>
+      <View style={styles.actionButtons}>
+        <TouchableOpacity style={styles.editBox} onPress={() => onEdit(event.id)}>
+          <FontAwesome name="edit" size={24} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.deleteBox} onPress={confirmDelete}>
+          <FontAwesome name="trash" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
     );
   };
+
+  React.useEffect(() => {
+    if (closeSwipeable) {
+      swipeableRef.current?.close();
+    }
+  }, [closeSwipeable]);
 
   return (
     <GestureHandlerRootView>
       <Swipeable
+        ref={swipeableRef}
         renderRightActions={renderRightActions}
       >
         <View style={styles.card}>
@@ -44,7 +57,7 @@ const SwipeableEventCard = ({ event, onDelete }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#f9f9f9',    
+    backgroundColor: '#f9f9f9',
     borderRadius: 10,
     overflow: 'hidden',
     elevation: 3,
@@ -73,6 +86,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginTop: 5,
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    height: '100%',
+  },
+  editBox: {
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: '100%',
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   deleteBox: {
     backgroundColor: 'red',

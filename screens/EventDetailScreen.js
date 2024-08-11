@@ -67,6 +67,14 @@ const EventDetailScreen = ({ route }) => {
       >
         Edit Event
       </Button>
+      
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('Events')}
+        style={styles.button}
+      >
+        Back to Events
+      </Button>
     </ScrollView>
   );
 };
@@ -76,7 +84,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 20,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    justifyContent: 'center', // Centrerer indholdet vertikalt
+    alignItems: 'center', // Centrerer indholdet horisontalt
   },
   title: {
     fontSize: 24,

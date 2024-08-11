@@ -78,10 +78,7 @@ export default function App() {
         <Stack.Screen 
           name="EventDetailScreen" 
           component={EventDetailScreen} 
-          options={{ 
-            title: 'Event Details', 
-            headerBackTitle: 'My Events' 
-          }} 
+          options={{ headerShown: false }} 
         />
         <Stack.Screen 
           name="EditEventScreen" 
