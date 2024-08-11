@@ -8,9 +8,30 @@ import AuthScreen from './screens/AuthScreen';
 import HomeScreen from './screens/HomeScreen';
 import EventsScreen from './screens/EventsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
+import CreateEventScreen from './screens/CreateEventScreen';
+import EventDetailScreen from './screens/EventDetailScreen';
+import EditEventScreen from './screens/EditEventScreen'; // Importér EditEventScreen
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+function ProfileStackScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="ProfileOverview" 
+        component={ProfileScreen} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="EditUserProfile" 
+        component={EditProfileScreen} 
+        options={{ headerShown: false }} 
+      />
+    </Stack.Navigator>
+  );
+}
 
 function MainTabNavigator() {
   return (
@@ -23,7 +44,7 @@ function MainTabNavigator() {
             iconName = 'home';
           } else if (route.name === 'Events') {
             iconName = 'calendar';
-          } else if (route.name === 'Profile') {
+          } else if (route.name === 'ProfileTab') {
             iconName = 'account';
           }
 
@@ -33,9 +54,9 @@ function MainTabNavigator() {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Events" component={EventsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+      <Tab.Screen name="Events" component={EventsScreen} options={{ title: 'My Events' }} />
+      <Tab.Screen name="ProfileTab" component={ProfileStackScreen} options={{ title: 'Profile' }} />    
     </Tab.Navigator>
   );
 }
@@ -46,6 +67,30 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Auth" component={AuthScreen} options={{ headerShown: false }} />
         <Stack.Screen name="MainTabs" component={MainTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="CreateEvent" 
+          component={CreateEventScreen} 
+          options={{ 
+            title: 'Create Event', 
+            headerBackTitle: 'Home' 
+          }} 
+        />
+        <Stack.Screen 
+          name="EventDetailScreen" 
+          component={EventDetailScreen} 
+          options={{ 
+            title: 'Event Details', 
+            headerBackTitle: 'My Events' 
+          }} 
+        />
+        <Stack.Screen 
+          name="EditEventScreen" 
+          component={EditEventScreen} 
+          options={{ 
+            title: 'Edit Event', 
+            headerBackTitle: 'Event Details' 
+          }} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
